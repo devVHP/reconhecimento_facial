@@ -1,4 +1,14 @@
 # 🧠 Sistema de Reconhecimento Facial com Controle de Acesso
+## 👨‍💻 Desenvolvedores
+
+- **Victor Penga**  
+  [GitHub](https://github.com/devVHP) • [LinkedIn](https://www.linkedin.com/in/victor-hugo-penga-a16a55283/)
+
+- **João Moraes**  
+  [GitHub](https://github.com/JoaoVictorMendess) • [LinkedIn](https://www.linkedin.com/in/jo%C3%A3o-victor-mendes-de-moraes-89305a19a/)
+
+- **Roberta Teixeira**  
+  [GitHub](https://github.com/Roteys) • [LinkedIn](https://www.linkedin.com/in/roberta-teixeira-68225826a/)
 
 ## 📋 Descrição
 
