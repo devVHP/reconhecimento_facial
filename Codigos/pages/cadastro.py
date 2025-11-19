@@ -1,0 +1,97 @@
+import streamlit as st
+import sqlite3
+import cv2
+import numpy as np
+from utils import (
+    carregar_imagem_sqlite,
+    verificar_acesso,
+    verificar_usuario,
+    criar_usuario,
+    analyze_face_components,
+    verificar_acesso_biometrico
+)
+
+# --- Configurações ---
+st.markdown("""
+            <style>
+            [data-testid="stSidebar"] {
+                display: none
+            }
+
+            [data-testid="collapsedControl"] {
+                display: none
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+st.set_page_config(page_title="Sistema de Biometria Facial", page_icon="👤", layout="centered", initial_sidebar_state="collapsed")
+con = sqlite3.connect("./banco_biometria.sqlite")
+cur = con.cursor()
+
+# --- Session state ---
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+if 'usuario' not in st.session_state:
+    st.session_state.usuario = ""
+if 'ready_to_capture_login' not in st.session_state:
+    st.session_state.ready_to_capture_login = False
+if 'ready_to_capture_cadastro' not in st.session_state:
+    st.session_state.ready_to_capture_cadastro = False
+
+orientacoes = """
+### 🧾 ORIENTAÇÕES
+1. Ambiente bem iluminado (sem luz direta no rosto).  
+2. Sem óculos, bonés, toucas ou acessórios que cubram o rosto.  
+3. Rosto centralizado e posição vertical.  
+4. Evite inclinar a cabeça ou se afastar da câmera.  
+5. Somente o seu rosto deve aparecer na imagem.
+
+💡 Capture a foto usando o botão abaixo.
+"""
+
+# --- Layout principal ---
+st.title("Cadastro")
+espaco_esq, meio, espaco_dir = st.columns([0.1, 0.8, 0.1])
+
+with meio:
+    # # ------------------- CADASTRO -------------------
+    st.subheader("🧍 Cadastro de Novo Usuário")
+    usuario = st.text_input("Crie um nome de usuário:")
+    senha = st.text_input("Crie uma senha:", type="password")
+    if meio.button("Voltar para Login", width="stretch"):
+        st.switch_page("app.py")
+    if st.button("Cadastrar", width="stretch"):
+        if usuario == "" or senha == "":
+            st.warning("⚠️ Preencha os campos")
+        else:
+            if verificar_usuario(usuario, cur):
+                st.warning("⚠️ Nome de usuário indisponível.")
+            else:
+                st.success(f"✅ Usuário {usuario} disponível!")
+                st.session_state.usuario = usuario
+                st.session_state.ready_to_capture_cadastro = True
+                st.info(orientacoes)
+
+    if st.session_state.ready_to_capture_cadastro:
+        st.subheader("📸 Capture seu rosto para cadastro")
+        foto = st.camera_input("Tire uma foto")
+
+        if foto is not None and st.button("Finalizar cadastro", width="stretch"):
+            bytes_img = foto.getvalue()
+            np_arr = np.frombuffer(bytes_img, np.uint8)
+            imagem = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+            valid_face, msg_face = analyze_face_components(imagem)
+            if not valid_face:
+                st.error(msg_face)
+            else:
+                st.success(msg_face)
+                criar_usuario(usuario, senha, imagem, cur)
+                con.commit()
+                st.success("✅ Usuário criado com sucesso!")
+                st.session_state.ready_to_capture_cadastro = False
+                if meio.button("Fazer Login", width="stretch"):
+                    st.switch_page("app.py")
+
+# --- Fechar conexão ---
+con.close()
