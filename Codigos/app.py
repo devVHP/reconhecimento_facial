@@ -98,10 +98,14 @@ with meio:
             np_arr = np.frombuffer(bytes_img, np.uint8)
             imagem = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-            # Analisa rosto (iluminação, posição etc.)
+            # Analisa rosto
             valid_face, msg_face = analyze_face_components(imagem)
             if not valid_face:
                 st.error(msg_face)
+                st.error("Tente novamente")
+                sleep(2.0)
+                st.session_state.clear()
+                st.rerun()
             else:
                 st.success(msg_face)
                 try:

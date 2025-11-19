@@ -130,6 +130,7 @@ try:
                         del st.session_state["delete_id"]
                         con.commit()
                         st.success("Usuário deletado com sucesso!")
+                        sleep(2.0)
                         st.rerun()
 
                     if col_b.button("❌ Cancelar"):
@@ -140,9 +141,12 @@ try:
         # Bloqueia acesso se não for administrador
         st.markdown("Permissão negada")
 
-except:
+except Exception as e:
     # Se algo der errado, volta para o login
+    st.markdown(e)
+    sleep(3.0)
     st.switch_page("app.py")
+
 
 # Fecha conexão
 con.close()

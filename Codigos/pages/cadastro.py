@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 import cv2
 import numpy as np
+from time import sleep
 from utils import (
     carregar_imagem_sqlite,
     verificar_acesso,
@@ -100,6 +101,10 @@ with meio:
 
             if not valid_face:
                 st.error(msg_face)  # Erro caso o rosto não seja aceito
+                st.error("Tente novamente")
+                sleep(2.0)
+                st.session_state.clear()
+                st.rerun()
             else:
                 st.success(msg_face)
 
@@ -110,9 +115,8 @@ with meio:
                 st.success("✅ Usuário criado com sucesso!")
                 st.session_state.ready_to_capture_cadastro = False
 
-                # Botão para ir para tela de login
-                if meio.button("Fazer Login", width="stretch"):
-                    st.switch_page("app.py")
+                sleep(2.0)
+                st.switch_page("app.py")
 
 # --- Fechar conexão ---
 con.close()
