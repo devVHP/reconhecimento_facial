@@ -13,12 +13,8 @@ response.raise_for_status()         # Garante que não ocorreu erro no download
 # --- Oculta barra lateral e botões padrão do Streamlit ---
 st.markdown("""
             <style>
-            [data-testid="stSidebar"] {
-                display: none
-            }
-            [data-testid="collapsedControl"] {
-                display: none
-            }
+            [data-testid="stSidebar"] { display: none }
+            [data-testid="collapsedControl"] { display: none }
             </style>
             """, unsafe_allow_html=True)
 

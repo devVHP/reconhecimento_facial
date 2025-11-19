@@ -14,8 +14,12 @@ from utils import (
 )
 
 # --- Configurações de layout e aparência ---
-st.markdown("""<style>[data-testid="stSidebar"], [data-testid="collapsedControl"] {display: none}</style>""",
-            unsafe_allow_html=True)
+st.markdown("""
+            <style>
+            [data-testid="stSidebar"] { display: none }
+            [data-testid="collapsedControl"] { display: none }
+            </style>
+            """, unsafe_allow_html=True)
 st.set_page_config(page_title="Sistema de Biometria Facial", page_icon="👤", layout="centered")
 
 # --- Conexão com banco SQLite ---
@@ -32,11 +36,13 @@ if 'ready_to_capture_cadastro' not in st.session_state: st.session_state.ready_t
 # --- Orientações para a captura facial ---
 orientacoes = """
 ### 🧾 ORIENTAÇÕES
-1. Ambiente bem iluminado  
-2. Sem acessórios que cubram o rosto  
-3. Rosto centralizado  
-4. Evitar inclinar a cabeça  
-5. Apenas seu rosto deve aparecer
+1. Ambiente bem iluminado (sem luz direta no rosto).  
+2. Sem óculos, bonés, toucas ou acessórios que cubram o rosto.  
+3. Rosto centralizado e posição vertical.  
+4. Evite inclinar a cabeça ou se afastar da câmera.  
+5. Somente o seu rosto deve aparecer na imagem.
+
+💡 Capture a foto usando o botão abaixo.
 """
 
 # --- Interface principal ---

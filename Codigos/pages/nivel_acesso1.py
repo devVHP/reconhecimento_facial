@@ -12,13 +12,8 @@ response.raise_for_status()  # Garante que o download foi bem-sucedido
 # --- Remove sidebar e configura layout da página ---
 st.markdown("""
             <style>
-            [data-testid="stSidebar"] {
-                display: none
-            }
-
-            [data-testid="collapsedControl"] {
-                display: none
-            }
+            [data-testid="stSidebar"] { display: none }
+            [data-testid="collapsedControl"] { display: none }
             </style>
             """, unsafe_allow_html=True)
 

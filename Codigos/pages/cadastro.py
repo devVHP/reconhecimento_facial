@@ -15,13 +15,8 @@ from utils import (
 # Remove a sidebar e controles de colapso do Streamlit
 st.markdown("""
             <style>
-            [data-testid="stSidebar"] {
-                display: none
-            }
-
-            [data-testid="collapsedControl"] {
-                display: none
-            }
+            [data-testid="stSidebar"] { display: none }
+            [data-testid="collapsedControl"] { display: none }
             </style>
             """, unsafe_allow_html=True)
 
