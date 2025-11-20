@@ -133,6 +133,10 @@ with meio:
 
                     else:
                         st.error(msg_bio)
+                        st.error("Tente novamente")
+                        sleep(2.0)
+                        st.session_state.clear()
+                        st.rerun()
 
                 except Exception as e:
                     st.error(f"❌ Erro durante verificação biométrica: {str(e)}")
