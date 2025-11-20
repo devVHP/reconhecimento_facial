@@ -43,7 +43,7 @@ def verificar_acesso_biometrico(img_entrada, img_banco):
         resultado = DeepFace.verify(img_banco, img_entrada)
 
         # Se faces forem iguais → acesso liberado
-        if resultado['verified']:
+        if resultado['confidence'] > 85:
             return True, "✅ Acesso biométrico liberado!"
         else:
             return False, "❌ Faces não correspondem, acesso negado."
